@@ -12,6 +12,7 @@ readme = "README.md"
 edition = "2021"
 
 [dependencies]
+defmt = "0.3"
 packed_struct = { version = "0.10", default-features = false }
 packed_struct_codegen = { version = "0.10", default-features = false }
 serde = { version = "1.0", default-features = false, features = ["derive"] }

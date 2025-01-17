@@ -1,4 +1,5 @@
 //! MSP structures
+use defmt::Format;
 use heapless::Vec;
 use packed_struct_codegen::{PackedStruct, PrimitiveEnum};
 use serde::{Deserialize, Serialize};
@@ -854,7 +855,7 @@ pub struct MspSettingInfo {
     // pub value: [u8; ?]
 }
 
-#[derive(PackedStruct, Debug, Copy, Clone)]
+#[derive(PackedStruct, Debug, Copy, Clone, Format)]
 #[packed_struct(endian = "lsb", bit_numbering = "msb0")]
 pub struct MspVtxConfig {
     pub vtx_type: u8,
@@ -886,7 +887,7 @@ pub struct MspVtxSetConfig {
     pub pit_mode: bool,
 }
 
-#[derive(PackedStruct, Debug, Copy, Clone)]
+#[derive(PackedStruct, Debug, Copy, Clone, Format)]
 #[packed_struct(endian = "lsb", bit_numbering = "msb0")]
 pub struct MspVtxTableBand {
     pub band: u8,
@@ -899,7 +900,7 @@ pub struct MspVtxTableBand {
     pub frequency: [u16; 8],
 }
 
-#[derive(PackedStruct, Debug, Copy, Clone)]
+#[derive(PackedStruct, Debug, Copy, Clone, Format)]
 #[packed_struct(endian = "lsb", bit_numbering = "msb0")]
 pub struct MspVtxTablePowerlevel {
     pub power_level: u8,

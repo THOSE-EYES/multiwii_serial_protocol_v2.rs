@@ -1,10 +1,11 @@
 use crc_any::CRCu8;
+use defmt::Format;
 use heapless::Vec;
 
 use crate::prelude::v1::*;
 
 /// Packet parsing error
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Format)]
 pub enum MspPacketParseError {
     OutputBufferSizeMismatch,
     CrcMismatch { expected: u8, calculated: u8 },
@@ -13,7 +14,7 @@ pub enum MspPacketParseError {
     InvalidHeader2,
     InvalidDirection,
     InvalidDataLength,
-    PartialPacket
+    PartialPacket,
 }
 
 /// Packet's desired destination
