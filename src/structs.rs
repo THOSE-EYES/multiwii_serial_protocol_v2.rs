@@ -872,7 +872,7 @@ pub struct MspVtxConfig {
 
     #[packed_field(size_bytes = "1")]
     pub use_vtx_table: bool,
-    
+
     pub bands: u8,
     pub channels: u8,
     pub power_levels: u8,
@@ -907,6 +907,62 @@ pub struct MspVtxTablePowerlevel {
     pub power_value: u16,
     pub label_length: u8,
     pub label: [u8; 3],
+}
+
+#[derive(PrimitiveEnum, Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
+pub enum MspWaypointActions {
+    Waypoint = 1,
+    HoldTime = 3,
+    Rth,
+    SetPoi,
+    Jump,
+    SetHead,
+    Land,
+}
+
+#[derive(PrimitiveEnum, Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
+pub enum MspWaypointFlags {
+    Home = 72,
+    Last = 165,
+}
+
+#[derive(PackedStruct, Debug, Copy, Clone)]
+#[packed_struct(endian = "lsb")]
+pub struct MspWpResponse {
+    pub waypoint_index: u8,
+    #[packed_field(size_bytes = "1", ty = "enum")]
+    pub action: MspWaypointActions,
+    pub latitude: i32,
+    pub longitude: i32,
+    pub altitude: i32,
+    pub param1: u16,
+    pub param2: u16,
+    pub param3: u16,
+    #[packed_field(size_bytes = "1", ty = "enum")]
+    pub flags: MspWaypointFlags,
+}
+
+pub type MspSetWp = MspWpResponse;
+
+#[derive(PackedStruct, Debug, Copy, Clone)]
+#[packed_struct(endian = "lsb")]
+pub struct MspWpMissionLoad {
+    pub mission_id: u8,
+}
+
+#[derive(PackedStruct, Debug, Copy, Clone)]
+#[packed_struct(endian = "lsb")]
+pub struct MspWpMissionSave {
+    pub mission_id: u8,
+}
+
+#[derive(PackedStruct, Debug, Copy, Clone)]
+#[packed_struct(endian = "lsb")]
+pub struct MspWpGetInfoResponse {
+    pub wp_capabilities: u8,
+    pub max_waypoints: u8,
+    pub mission_valid: u8,
+    pub waypoint_count: u8,
 }
 
 #[test]
