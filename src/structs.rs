@@ -965,6 +965,69 @@ pub struct MspWpGetInfoResponse {
     pub waypoint_count: u8,
 }
 
+#[derive(PrimitiveEnum, Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
+pub enum MspGpsFixType {
+    NoFix,
+    Fix2D,
+    Fix3D,
+}
+
+#[derive(PackedStruct, Debug, Copy, Clone)]
+#[packed_struct(endian = "lsb")]
+pub struct MspRawGpsResponse {
+    #[packed_field(size_bytes = "1", ty = "enum")]
+    pub fix_type: MspGpsFixType,
+    pub num_stat: u8,
+    pub latitude: i32,
+    pub longitude: i32,
+    pub altitude: i16,
+    pub speed: i16,
+    pub ground_course: i16,
+    pub hdop: u16,
+}
+
+#[derive(PackedStruct, Debug, Copy, Clone)]
+#[packed_struct(endian = "lsb")]
+pub struct MspCompGpsResponse {
+    pub distance_to_home: u16,
+    pub direction_to_home: i16,
+    pub gps_heartbeat: u8,
+}
+
+#[derive(PackedStruct, Debug, Copy, Clone)]
+#[packed_struct(endian = "lsb")]
+pub struct MspGpsSVInfoResponse {
+    pub protocol_version: u8,
+    pub num_channels: u8,
+    pub hdop_hundreds_digit: u8,
+    pub hdop_tens_digit: u8,
+    pub hdop_units_digit: u8,
+}
+
+#[derive(PackedStruct, Debug, Copy, Clone)]
+#[packed_struct(endian = "lsb")]
+pub struct MspGpsStatisticsResponse {
+    pub last_message_dt: u16,
+    pub errors: u32,
+    pub timeouts: u32,
+    pub packet_count: u32,
+    pub hdop: u16,
+    pub eph: u16,
+    pub epv: u16,
+}
+
+#[derive(PackedStruct, Debug, Copy, Clone)]
+#[packed_struct(endian = "lsb")]
+pub struct MspSetRawGpsRequest {
+    #[packed_field(size_bytes = "1", ty = "enum")]
+    pub fix_type: MspGpsFixType,
+    pub num_stat: u8,
+    pub latitude: i32,
+    pub longitude: i32,
+    pub altitude: i16,
+    pub speed: i16,
+}
+
 #[test]
 fn test_mixer() {
     use packed_struct::prelude::*;
